@@ -49,9 +49,9 @@ def test(request):
         if  request.POST.get('quantity'):
             dd=int(request.POST.get('quantity'))
         if  request.POST.get('quantity2'):
-            mm=int(request.POST.get('quantity1'))
+            mm=int(request.POST.get('quantity2'))
         if  request.POST.get('quantity1'):
-            hh=int(request.POST.get('quantity2'))
+            hh=int(request.POST.get('quantity1'))
         end_date=date_1 - timedelta(days=dd,hours=hh,minutes=mm)
     else:
         end_date = date_1 - timedelta(hours=6)
