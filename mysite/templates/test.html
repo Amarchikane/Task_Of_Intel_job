@@ -1,0 +1,65 @@
+
+{% load static %}
+<html>
+    <head>
+        <title>django-chartjs line chart demo</title>
+        <style>
+            div {
+              /* height: 100px; */
+              width: 70%;
+              background-color: powderblue;
+            }
+            </style>
+        <!--[if lte IE 8]>
+            <script src="{% static 'js/excanvas.js' %}"></script>
+        <![endif]-->
+    </head>
+    <body>
+        <form  action="/" method="POST">
+            {% csrf_token %}
+            <label for="quantity">plot graph of 
+            <input type="number" id="quantity" name="quantity" min="0" max="365">day 
+            <input type="number" id="quantity1" name="quantity" min="1" max="365">hours
+            <input type="number" id="quantity2" name="quantity" min="1" max="365">minutes
+            days:</label><br>
+            <label for="Station">Station</label>
+            <select class="custom-select d-block w-100" name="Station" id="Station" required>
+              <option value="2" selected> Foster Weather Station</option>
+              <option value="1">Oak Street Weather Station</option>
+            </select>
+            <button type="submit" value="submit" class="btn btn-primary btn-block"> Submit  </button>
+            </form>
+        <div>
+            
+                <h2>Line Charts for {{ graph }} from {{enddate}} to {{startDate}}</h2>
+        <canvas id="myChart" width="50" height="40"></canvas>
+
+
+        <link rel="stylesheet" type="text/css" href="/jquery.datetimepicker.css"/ >
+        <script src="/jquery.js"></script>
+       
+        <script src="/build/jquery.datetimepicker.full.min.js"></script>
+
+
+
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
+        <script type="text/javascript" src="{% static 'js/Chart.min.js' %}"></script>
+        
+        <script type="text/javascript">
+            $.get('{% url "line_chart_json" %}', function(data) {
+                var ctx = $("#myChart").get(0).getContext("2d");
+                new Chart(ctx, {
+                    type: 'line', data: data
+                });
+            });
+        </script>
+        
+        </div>
+        <script type="text/javascript">
+            jQuery('#datetimepicker').datetimepicker({
+            format:'d.m.Y H:i',
+             inline:true,
+              lang:'ru'
+            });</script>
+    </body>
+</html>
