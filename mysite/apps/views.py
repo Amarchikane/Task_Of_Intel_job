@@ -42,7 +42,7 @@ def test(request):
     measurement_timestamp_label=[]
     dd=0
     mm=0
-    hh=0
+    hh=6
     dt_string = '2021-06-07T15:00:00.000'
     date_1 = datetime.strptime(dt_string, '%Y-%m-%dT%H:%M:%S.%f')
     if request.POST.get('quantity') or request.POST.get('quantity1') or request.POST.get('quantity2'):
@@ -77,7 +77,7 @@ def test(request):
                 Wind_Speed.append(i['wind_speed']) 
     line_chart = TemplateView.as_view(template_name='line_chart.html')
     line_chart_json = LineChartJSONView.as_view()
-    return render(request,'test.html',{'graph':temp,'startDate':str(date_time_obj),'enddate':str(date_time_obj3)})
+    return render(request,'test.html',{'graph':temp,'startDate':str(date_time_obj),'enddate':str(date_time_obj3),'hh':hh,'mm':mm,'dd':dd})
 
 class LineChartJSONView(BaseLineChartView):
 
