@@ -25,12 +25,12 @@ Temperature=[]
 Humidity=[]
 Wind_Speed=[]
 measurement_timestamp_label=[]
-now = datetime.now()
-temp=""
+today = datetime.now()
+Station=""
 
 def test(request):
 
-    global temp
+    global Station
     global Temperature
     global Humidity
     global Wind_Speed
@@ -45,13 +45,13 @@ def test(request):
     hh=6
     dt_string = '2021-06-07T15:00:00.000'
     date_1 = datetime.strptime(dt_string, '%Y-%m-%dT%H:%M:%S.%f')
-    if request.POST.get('quantity') or request.POST.get('quantity1') or request.POST.get('quantity2'):
-        if  request.POST.get('quantity'):
-            dd=int(request.POST.get('quantity'))
-        if  request.POST.get('quantity2'):
-            mm=int(request.POST.get('quantity2'))
-        if  request.POST.get('quantity1'):
-            hh=int(request.POST.get('quantity1'))
+    if request.POST.get('day') or request.POST.get('Mounth') or request.POST.get('Hour'):
+        if  request.POST.get('day'):
+            dd=int(request.POST.get('day'))
+        if  request.POST.get('Mounth'):
+            mm=int(request.POST.get('Mounth'))
+        if  request.POST.get('Hour'):
+            hh=int(request.POST.get('Hour'))
         end_date=date_1 - timedelta(days=dd,hours=hh,minutes=mm)
     else:
         end_date = date_1 - timedelta(hours=6)
@@ -61,12 +61,12 @@ def test(request):
     date_time_obj3=datetime.strptime(end_date, '%Y-%m-%dT%H:%M:%S.%f')
     if request.method=="POST":
         if request.POST.get('Station')=="1":
-            temp="Oak Street Weather Station"
+            Station="Oak Street Weather Station"
         else:
-            temp="Foster Weather Station"
+            Station="Foster Weather Station"
         # print("run",Country)  
     for i in data_json:
-        if i['station_name']==temp:
+        if i['station_name']==Station:
             
             date_time_obj2=datetime.strptime(i['measurement_timestamp'], '%Y-%m-%dT%H:%M:%S.%f')
             
@@ -77,7 +77,7 @@ def test(request):
                 Wind_Speed.append(i['wind_speed']) 
     line_chart = TemplateView.as_view(template_name='line_chart.html')
     line_chart_json = LineChartJSONView.as_view()
-    return render(request,'test.html',{'graph':temp,'startDate':str(date_time_obj),'enddate':str(date_time_obj3),'hh':hh,'mm':mm,'dd':dd})
+    return render(request,'test.html',{'graph':Station,'startDate':str(date_time_obj),'enddate':str(date_time_obj3),'hh':hh,'mm':mm,'dd':dd})
 
 class LineChartJSONView(BaseLineChartView):
 
