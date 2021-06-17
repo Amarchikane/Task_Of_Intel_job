@@ -34,13 +34,7 @@
                 <h2>Line Charts for {{ graph }} from {{enddate}} to {{startDate}}</h2>
         <canvas id="myChart" width="50" height="40"></canvas>
 
-
-        <link rel="stylesheet" type="text/css" href="/jquery.datetimepicker.css"/ >
         <script src="/jquery.js"></script>
-       
-        <script src="/build/jquery.datetimepicker.full.min.js"></script>
-
-
 
         <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
         <script type="text/javascript" src="{% static 'js/Chart.min.js' %}"></script>
@@ -55,11 +49,6 @@
         </script>
         
         </div>
-        <script type="text/javascript">
-            jQuery('#datetimepicker').datetimepicker({
-            format:'d.m.Y H:i',
-             inline:true,
-              lang:'ru'
-            });</script>
+
     </body>
 </html>

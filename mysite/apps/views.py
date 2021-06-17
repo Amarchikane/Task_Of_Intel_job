@@ -21,30 +21,41 @@ response = urlopen(url)
 # storing the JSON response
 # from url in data
 data_json = json.loads(response.read())
+
+#declare var so it can load the cade at runtime 
+
 Temperature=[]
 Humidity=[]
 Wind_Speed=[]
 measurement_timestamp_label=[]
-today = datetime.now()
 Station=""
+
+#today's Time
+today = datetime.now()
 
 def test(request):
 
+    #load global var 
     global Station
     global Temperature
     global Humidity
     global Wind_Speed
     global measurement_timestamp_label
     global data_json
+    #initialize global var to null
     Temperature=[]
     Humidity=[]
     Wind_Speed=[]
     measurement_timestamp_label=[]
+    #set dynamic value for day mounth and hour which is the difference between current date
     dd=0
     mm=0
     hh=6
+    #static date for testing
     dt_string = '2021-06-07T15:00:00.000'
+    #convert string format to date 
     date_1 = datetime.strptime(dt_string, '%Y-%m-%dT%H:%M:%S.%f')
+
     if request.POST.get('day') or request.POST.get('Mounth') or request.POST.get('Hour'):
         if  request.POST.get('day'):
             dd=int(request.POST.get('day'))
@@ -75,6 +86,7 @@ def test(request):
                 Temperature.append(i['air_temperature']) 
                 Humidity.append(i['humidity']) 
                 Wind_Speed.append(i['wind_speed']) 
+    #Loads chat dynamically
     line_chart = TemplateView.as_view(template_name='line_chart.html')
     line_chart_json = LineChartJSONView.as_view()
     return render(request,'test.html',{'graph':Station,'startDate':str(date_time_obj),'enddate':str(date_time_obj3),'hh':hh,'mm':mm,'dd':dd})
@@ -82,20 +94,19 @@ def test(request):
 class LineChartJSONView(BaseLineChartView):
 
     def get_labels(self):
-        """Return 7 labels for the x-axis."""
+        # """Return labels for the x-axis."""
         return measurement_timestamp_label
 
     def get_providers(self):
-        """Return names of datasets."""
+        # """Return names of datasets."""
         return ["Temperature", "Humidity", "Wind_Speed"]
 
     def get_data(self):
-        """Return 3 datasets to plot."""
-
+        # """Return  datasets to plot."""
         return [Temperature,
                 Humidity,
                 Wind_Speed]
 
-
+#Loads chat dynamically
 line_chart = TemplateView.as_view(template_name='line_chart.html')
 line_chart_json = LineChartJSONView.as_view()
